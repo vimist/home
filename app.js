@@ -285,7 +285,7 @@ function load_config(config_url) {
 var state = init_state();
 
 window.addEventListener('DOMContentLoaded', function(e) {
-    document.body.addEventListener('keydown', function(e) {
+    window.addEventListener('keydown', function(e) {
         if (e.key == 'Escape') {
             state.show_search = false;
             set_filters('');
@@ -297,6 +297,14 @@ window.addEventListener('DOMContentLoaded', function(e) {
         }
 
         m.redraw();
+    });
+
+    window.addEventListener('paste', function(e) {
+        if (!state.show_search) {
+            set_filters(e.clipboardData.getData('text'));
+            state.show_search = true;
+            m.redraw();
+        }
     });
 
     m.mount(document.getElementById('app'), App);
